@@ -1,0 +1,16 @@
+--- modules/libpref/init/all.js
++++ modules/libpref/init/all.js
+@@ -107,6 +107,13 @@
+ pref("browser.cache.disk.enable", false);
+ pref("browser.cache.memory.enable", true);
+ 
++// --- ANTI FINGERPRINTING & HARDWARE SPOOFING ---
++pref("privacy.resistFingerprinting", true);
++pref("javascript.options.wasm", false);
++pref("dom.webaudio.enabled", false);
++pref("dom.gamepad.enabled", false);
++pref("dom.battery.enabled", false);
++
+ // Network limits
+ pref("network.http.max-connections", 900);
+ pref("network.http.max-persistent-connections-per-server", 6);

@@ -1,0 +1,20 @@
+--- netwerk/base/nsProtocolProxyService.cpp
++++ netwerk/base/nsProtocolProxyService.cpp
+@@ -2121,6 +2121,17 @@
+ 
+ nsresult nsProtocolProxyService::Resolve_Internal(nsIChannel* channel,
+                                                   const nsACString& info,
+                                                   uint32_t flags,
+                                                   int32_t* defaultPort,
+                                                   nsIProxyInfo** result) {
++  // TOR ENFORCEMENT: Hardcoded SOCKS5 proxy to localhost:9150
++  nsCOMPtr<nsIProxyInfo> torProxy;
++  nsresult rv = NewProxyInfo("socks"_ns, "127.0.0.1"_ns, 9150,
++                             nsIProxyInfo::TRANSPARENT_PROXY_RESOLVES_HOST,
++                             UINT32_MAX, nullptr, getter_AddRefs(torProxy));
++  if (NS_SUCCEEDED(rv)) {
++    torProxy.forget(result);
++    return NS_OK;
++  }
++
+   LOG(("nsProtocolProxyService::Resolve_Internal"));
